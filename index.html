@@ -14,26 +14,31 @@ const SUPABASE_URL="https://doxaerjjoeskaybqgdzz.supabase.co",SUPABASE_ANON_KEY=
 const configured=SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("CONFIGURA")&&!SUPABASE_ANON_KEY.includes("CONFIGURA");
 const sb=configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY):null;
 const missions=[
-["Misión 1 · Detector de relaciones","Relaciones binarias",[
-["Sea A={1,2,3} y R={(1,1),(1,2),(2,1),(2,2),(3,3)}. ¿Es R reflexiva?",["Sí","No","Solo si es simétrica"],0,"Todo elemento debe estar relacionado consigo mismo."],
-["Para R={(1,2),(2,1),(2,3)} en A={1,2,3}, ¿es simétrica?",["Sí","No","Es transitiva"],1,"Si 1R2, debe cumplirse 2R1; revisa también los demás pares."],
-["En un dígrafo de una relación, ¿qué representa un lazo en el vértice x?",["x no se relaciona con nadie","x está relacionado consigo mismo","La relación es antisimétrica"],1,"Un lazo representa el par (x,x)."]]],
-["Misión 2 · Equivalencias","Equivalencia y orden",[
-["En Z, se define xRy si |x|=|y|. ¿Qué tipo de relación es?",["De equivalencia","De orden estricto","Ninguna de las anteriores"],0,"Comprueba reflexividad, simetría y transitividad."],
-["En la relación anterior, ¿cuál es la clase de equivalencia de 3?",["{3}","{−3,3}","Todos los enteros"],1,"Son los enteros con el mismo valor absoluto."],
-["En ({1,2,3,6}, divide), ¿cuál es el mínimo?",["1","2","6"],0,"El mínimo divide a todos los elementos."]]],
-["Misión 3 · Algoritmo de Euclides","Divisibilidad",[
-["Calcula mcd(84,126).",["21","42","14"],1,"Aplica el algoritmo de Euclides."],
-["En la división 252=198·1+r, ¿cuánto vale r?",["54","56","64"],0,"Resta 252−198."],
-["Si d=mcd(a,b), ¿qué identidad garantiza Bézout?",["d=a+b","Existen u,v enteros con au+bv=d","d es siempre primo"],1,"El máximo común divisor es una combinación lineal entera."]]],
-["Misión 4 · Aritmética modular","Congruencias",[
-["¿Cuál es el resto de −17 al dividir entre 5?",["−2","2","3"],2,"El resto euclídeo debe estar entre 0 y 4."],
-["¿Cuánto vale 4·5 en Z₆?",["20","2","4"],1,"Reduce 20 módulo 6."],
-["¿Cuántas unidades tiene Z₁₂?",["4","6","8"],0,"Son las clases coprimas con 12: 1, 5, 7 y 11."]]],
-["Misión 5 · Código final","Reto final",[
-["Resuelve 6x≡9 (mod 15). ¿Cuántas soluciones hay módulo 15?",["1","3","6"],1,"Hay solución si mcd(6,15) divide a 9; en ese caso hay 3 soluciones."],
-["En Z₆, ¿es inyectiva g(x)=3x?",["Sí","No","Solo para x par"],1,"Compara g(0) y g(2), por ejemplo."],
-["En Z₇, si f(x)=x+1 y g(x)=2x, ¿cuánto vale (g∘f)(2)?",["5","6","0"],1,"Primero f(2)=3 y después g(3)=6."]]]
+["Misión 1 · Relaciones binarias","Propiedades y representación",[
+["Sea A={1,2,3} y R={(1,1),(1,2),(2,1),(2,2),(3,3)}. ¿Qué propiedades cumple R?",["Es reflexiva, simétrica y transitiva, pero no antisimétrica","Es reflexiva y antisimétrica, pero no simétrica","Es simétrica, pero no reflexiva ni transitiva"],0,"Todos los elementos están relacionados consigo mismos; los pares aparecen en ambos sentidos y la relación es transitiva. No es antisimétrica porque 1R2 y 2R1, con 1 distinto de 2."],
+["Sea A={1,2,3} y S={(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)}. ¿Es S antisimétrica?",["Sí, porque no hay dos elementos distintos relacionados en ambos sentidos","No, porque 1S2 y 2S3","No, porque no es reflexiva"],0,"No existen x e y distintos tales que xSy e ySx. Por tanto, es antisimétrica."],
+["Sea A={1,2,3} y sea R la relación cuya matriz, en el orden 1,2,3, es M_R=((1,1,0),(0,1,1),(0,0,1)). ¿Qué pares ordenados forman R?",["{(1,1),(1,2),(2,2),(2,3),(3,3)}","{(1,1),(2,2),(3,3),(2,1),(3,2)}","{(1,2),(2,3),(1,3)}"],0,"Cada entrada igual a 1 en la fila i y columna j representa el par (i,j)."]
+]],
+["Misión 2 · Equivalencia y orden","Clases, divisibilidad y cotas",[
+["En A={−2,−1,0,1,2,3,4} se define xRy si y solo si x²−2x=y²−2y. ¿Cuál es la clase de equivalencia de 3?",["{−1,3}","{1,3}","{−2,3,4}"],0,"Al evaluar x²−2x en los elementos de A, el valor correspondiente a 3 también se obtiene para −1."],
+["Sea A={2,3,4,6,12}, ordenado por divisibilidad. ¿Cuáles son los elementos minimales de A?",["{2,3}","{2}","{12}"],0,"Un elemento es minimal si no existe otro elemento distinto de A que lo divida. En A, 2 y 3 son minimales."],
+["Sea A={2,3,4,6,12}, ordenado por divisibilidad, y B={4,6}. ¿Cuál es el ínfimo de B en A?",["2","3","4"],0,"El ínfimo es la mayor de las cotas inferiores. En A, el único elemento que divide a 4 y a 6 es 2."]
+]],
+["Misión 3 · Divisibilidad y Bézout","Algoritmo de Euclides",[
+["Calcula mcd(252,198) utilizando el algoritmo de Euclides.",["18","36","54"],0,"252=198+54, 198=3·54+36 y 54=36+18. Por tanto, el máximo común divisor es 18."],
+["Sabiendo que mcd(18,30)=6, ¿cuál de las siguientes ecuaciones diofánticas tiene solución entera?",["18x+30y=12","18x+30y=10","18x+30y=25"],0,"La ecuación ax+by=c tiene solución entera si y solo si mcd(a,b) divide a c. El número 6 divide a 12."],
+["Al dividir −17 entre 5 mediante la división euclídea, ¿qué resto se obtiene?",["3","−2","2"],0,"El resto debe cumplir 0≤r<5. Se tiene −17=5·(−4)+3."]
+]],
+["Misión 4 · Congruencias y Z_m","Clases y operaciones modulares",[
+["¿Cuál de las siguientes congruencias es cierta?",["37≡1 (mod 6)","37≡2 (mod 6)","37≡5 (mod 6)"],0,"La diferencia 37−1=36 es múltiplo de 6; equivalentemente, ambos números dejan el mismo resto al dividir entre 6."],
+["En Z_8, ¿cuál es el resultado de [5]+[7]?",["[4]","[12]","[2]"],0,"Se suma 5+7=12 y se toma el resto módulo 8: 12≡4 (mod 8)."],
+["En Z_12, ¿cuál es el inverso multiplicativo de [5]?",["[5]","[7]","No tiene inverso"],0,"Como 5·5=25≡1 (mod 12), la clase [5] es su propio inverso."]
+]],
+["Misión 5 · Ecuaciones de congruencias","Resolución de congruencias lineales",[
+["Resuelve 6x≡9 (mod 15). ¿Cuántas soluciones distintas tiene en Z_15?",["3","1","No tiene solución"],0,"mcd(6,15)=3 divide a 9. Como el máximo común divisor es 3, existen exactamente 3 soluciones módulo 15."],
+["¿Tiene solución la congruencia 4x≡3 (mod 10)?",["No, porque mcd(4,10)=2 no divide a 3","Sí, tiene una única solución","Sí, tiene dos soluciones"],0,"Una congruencia ax≡b (mod m) tiene solución si y solo si mcd(a,m) divide a b. Aquí 2 no divide a 3."],
+["Resuelve 7x≡3 (mod 10). ¿Cuál es la solución en Z_10?",["[9]","[7]","[3]"],0,"El inverso de 7 módulo 10 es 3, porque 7·3≡1 (mod 10). Multiplicando ambos miembros por 3 se obtiene x≡9 (mod 10)."]
+]]
 ];
 const questions=missions.flatMap((m,mi)=>m[2].map((q,qi)=>({mission:m[0],topic:m[1],q:q[0],opts:q[1],correct:q[2],hint:q[3],mi,qi})));
 let index=0,score=0,hits=0,started=0,qStarted=0,remaining=3600,bonusTotal=0,answersLog=[],tick=null,locked=false,student="",group="";
